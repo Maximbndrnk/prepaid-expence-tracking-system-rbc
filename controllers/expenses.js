@@ -1,12 +1,12 @@
 module.exports.getRecords = (req, resp) => {
     resp.status(200).json({
-        getRecords: true,
+        getRecords: 'getRecords from controller',
     });
 }
 
 module.exports.getById = (req, resp) => {
     resp.status(200).json({
-        getById: 'addRecord from controller',
+        getById: 'getById from controller',
     });
 }
 
@@ -18,7 +18,7 @@ module.exports.addRecord = (req, resp) => {
 
 module.exports.updateRecord = (req, resp) => {
     resp.status(200).json({
-        addRecord: 'addRecord from controller',
+        updateRecord: 'updateRecord from controller',
     });
 }
 
