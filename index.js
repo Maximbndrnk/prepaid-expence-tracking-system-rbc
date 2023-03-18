@@ -1,8 +1,6 @@
-const express = require('express');
+const app = require('./app.js');
+const PORT = process.env.PORT || 5002;
 
-const app = express();
-
-
-app.listen(5002, () => {
-    console.log('Server started')
-})
+app.listen(PORT, () => {
+    console.log(`Server has been started on port ${PORT}`)
+});
