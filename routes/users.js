@@ -1,11 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const pool = require('../db/index');
+const authenticateToken = require('../middleware/auth-middleware');
 
 const router = express.Router();
 
 // GET USERS
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     try {
         // console.log(req.cookies);
         const users = await pool.query('SELECT * FROM users;');
