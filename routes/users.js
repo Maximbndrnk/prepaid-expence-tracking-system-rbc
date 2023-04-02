@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcrypt');
 const pool = require('../db/index');
+
+const router = express.Router();
 
 // GET USERS
 router.get('/', async (req, res) => {
@@ -14,6 +15,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+// CREATE USER
 router.post('/', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
