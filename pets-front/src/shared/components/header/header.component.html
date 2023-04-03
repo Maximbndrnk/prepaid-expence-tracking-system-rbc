@@ -1,0 +1,16 @@
+<div class="w-full header-wrapper flex-between-center">
+  <div class="logo">PET  System</div>
+
+  <div class="user-header-container">
+    <span class="header-name m-r-16">Maxim Bondarenko</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
