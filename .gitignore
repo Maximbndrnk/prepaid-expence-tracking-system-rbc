@@ -41,6 +41,7 @@ build/Release
 
 # Dependency directories
 node_modules/
+pets-front/node_modules/
 .idea/
 jspm_packages/
 
