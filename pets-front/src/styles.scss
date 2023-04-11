@@ -1,0 +1,52 @@
+@import "src/assets/scss/variables";
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  //background-color: $body-background-color;
+  //color: $body-text-color;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.invert-colors {
+  color: $body-background-color;
+  background-color: $body-text-color;
+}
+
+
+.w-full {
+  width: 100%;
+}
+
+.flex-between-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-center-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.m-r-16 {
+  margin-right: 16px;
+}
+
+.m-l-16 {
+  margin-left: 16px;
+}
+
+.m-t-16 {
+  margin-top: 16px;
+}
+
+.m-r-16 {
+  margin-bottom: 16px;
+}

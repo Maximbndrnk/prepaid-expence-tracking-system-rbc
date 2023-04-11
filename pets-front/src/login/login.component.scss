@@ -1,0 +1,22 @@
+@import "src/assets/scss/variables";
+
+.login-wrapper {
+  margin-top: 200px;
+
+}
+
+.example-card {
+  max-width: 400px;
+  width: 336px;
+  //background-color: grey;
+
+  mat-card-header {
+
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
