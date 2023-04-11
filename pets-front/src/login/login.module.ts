@@ -5,8 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
   {
@@ -29,10 +30,12 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     MatCardModule,
+    SharedModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule
-  ]
+  ],
+
 })
 export class LoginModule { }

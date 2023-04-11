@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
                 hashedPassword
             ]
         );
-        res.json({ users: newUser.rows[0] });
+        res.status(200).json({  });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }

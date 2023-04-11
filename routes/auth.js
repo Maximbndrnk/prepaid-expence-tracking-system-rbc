@@ -26,16 +26,16 @@ router.post('/login', async (req, res) => {
             res.status(401).json({ error: 'Password is incorrect' })
         }
         let user = users.rows[0];
-
-        let tokens = jwtTokens(users.rows[0]);
+        console.log(user);
+        let tokens = jwtTokens(user);
         // return res.status(200).json('Success' );
         res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true });
 
         res.json({
             refreshToken: tokens.refreshToken,
             accessToken: tokens.accessToken,
-            userName: user.userName,
-            userEmail: user.userEmail,
+            userName: user.user_name,
+            userEmail: user.user_email,
         });
     } catch (e) {
         res.status(401).json({ error: e.message });
