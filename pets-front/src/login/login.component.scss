@@ -8,15 +8,22 @@
 .example-card {
   max-width: 400px;
   width: 336px;
-  //background-color: grey;
-
-  mat-card-header {
-
-  }
 }
 
 form {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.link{
+  color: $primary-blue;
+
+  &:hover{
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+.or {
+  margin: 12px 0;
 }

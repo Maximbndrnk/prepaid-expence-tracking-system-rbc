@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../shared/base.component';
+import { LoginService } from '../shared/services/login.service';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -8,25 +10,77 @@ import { BaseComponent } from '../shared/base.component';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends BaseComponent implements OnInit {
-  public form?: FormGroup;
+  public loginMode = true;
+  public loginForm?: FormGroup;
+  public registerForm?: FormGroup;
+  public FORM_KEYS = {
+    NAME: 'name',
+    EMAIL: 'email',
+    PASSWORD: 'password',
+    CONFIRM_PASSWORD: 'confirmPassword',
+  };
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private loginService: LoginService,
+  ) {
     super();
   }
 
 
   ngOnInit(): void {
-    this.initForm();
+    this.initLoginForm();
+    this.initRegisterForm();
+    console.log('r', this);
   }
 
-  onSubmit(): void {
-    console.log(this.form?.value);
+  public changeMode(b: boolean): void {
+    this.loginMode = b;
   }
 
-  private initForm(): void {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+  public login(): void {
+    const v = this.loginForm?.getRawValue();
+    this.loginService.login(
+      v.email,
+      v.password
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(resp => {
+      console.log(resp);
+    }, error => {
+
+    })
+  }
+
+  public register(): void {
+    const v = this.registerForm?.getRawValue();
+    this.loginService.register(
+      v[this.FORM_KEYS.EMAIL],
+      v[this.FORM_KEYS.NAME],
+      v[this.FORM_KEYS.PASSWORD]
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(resp => {
+      console.log(resp);
+    }, error => {
+
+    })
+  }
+
+  private initLoginForm(): void {
+    this.loginForm = this.fb.group({
+      [this.FORM_KEYS.EMAIL]: ['', [Validators.required, Validators.email]],
+      [this.FORM_KEYS.PASSWORD]: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
+
+  private initRegisterForm(): void {
+    this.registerForm = this.fb.group({
+      [this.FORM_KEYS.NAME]: ['', [Validators.required, Validators.minLength(2)]],
+      [this.FORM_KEYS.EMAIL]: ['', [Validators.required, Validators.email]],
+      [this.FORM_KEYS.PASSWORD]: ['', [Validators.required, Validators.minLength(3)]],
+      [this.FORM_KEYS.CONFIRM_PASSWORD]: ['', [Validators.required]]
+    });
+  }
+
 }

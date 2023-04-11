@@ -5,21 +5,76 @@
       <mat-card-title>Login</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <form *ngIf="loginForm && loginMode" [formGroup]="loginForm">
+
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email">
+          <input matInput [formControlName]="FORM_KEYS.EMAIL" type="email">
         </mat-form-field>
+
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <input matInput formControlName="password" type="password">
+          <input matInput [formControlName]="FORM_KEYS.PASSWORD" type="password">
         </mat-form-field>
-        <button mat-raised-button
-                color="primary" type="submit"
-                [disabled]="form.invalid">
-          Login
-        </button>
+
+
+          <div class="w-full flex-column-center">
+            <button mat-raised-button
+                    class="w-full"
+                    color="primary" type="submit"
+                    (click)="login()"
+                    [disabled]="loginForm.invalid">
+              Login
+            </button>
+
+            <span class="or">or you can</span>
+
+            <a class="link" (click)="changeMode(false)">Register</a>
+          </div>
+
       </form>
+
+      <form *ngIf="registerForm && !loginMode" [formGroup]="registerForm">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput [formControlName]="FORM_KEYS.EMAIL" type="email">
+        </mat-form-field>
+
+        <ng-container *ngIf="!loginMode">
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput [formControlName]="FORM_KEYS.NAME" type="text">
+          </mat-form-field>
+        </ng-container>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput [formControlName]="FORM_KEYS.PASSWORD" type="password">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"
+                        *ngIf="!loginMode">
+          <mat-label>Confirm password</mat-label>
+          <input matInput [formControlName]="FORM_KEYS.CONFIRM_PASSWORD" type="password">
+        </mat-form-field>
+
+
+          <div class="w-full flex-column-center">
+            <button mat-raised-button
+                    class="w-full"
+                    (click)="register()"
+                    color="primary" type="submit"
+                    [disabled]="registerForm.invalid">
+              Register
+            </button>
+
+            <span class="or">or</span>
+
+            <a class="link" (click)="changeMode(true)">Login</a>
+          </div>
+      </form>
+
     </mat-card-content>
 
   </mat-card>
