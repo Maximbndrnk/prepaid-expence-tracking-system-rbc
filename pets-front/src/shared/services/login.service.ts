@@ -3,6 +3,8 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { LoginResponse } from '../models/login-responce.interface';
+import { SessionStorageService } from './session-storage.service';
+import { KEYS } from '../models/keys.const';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class LoginService {
 
   constructor(
     private http: HttpClient,
+    private sessionStorage: SessionStorageService,
   ) {
   }
 
@@ -22,6 +25,8 @@ export class LoginService {
       this.getHeaders()
     ).pipe(
       map((resp) => {
+        this.sessionStorage.setItem(KEYS.ACCESS_TOKEN, resp.accessToken);
+        this.sessionStorage.setItem(KEYS.REFRESH_TOKEN, resp.refreshToken);
         return resp;
       })
     )
@@ -42,6 +47,9 @@ export class LoginService {
     )
   }
 
+  getTMPUsers(){
+    return this.http.get(`${this.baseUrl}/users`);
+  }
 
   private getHeaders(): Object {
     return {

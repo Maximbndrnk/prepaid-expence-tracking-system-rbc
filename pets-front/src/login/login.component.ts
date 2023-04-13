@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { BaseComponent } from '../shared/base.component';
 import { LoginService } from '../shared/services/login.service';
 import { takeUntil } from 'rxjs';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
+    private authService: AuthService,
   ) {
     super();
   }
@@ -32,6 +34,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this.initLoginForm();
     this.initRegisterForm();
     console.log('r', this);
+  }
+
+  test(){
+    this.authService.updateToken().subscribe();
   }
 
   public changeMode(b: boolean): void {

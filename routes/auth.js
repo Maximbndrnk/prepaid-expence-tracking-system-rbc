@@ -47,6 +47,7 @@ router.get('/refreshToken', (req, res) => {
     try {
         const refreshToken = req.cookies.refresh_token;
         console.log(refreshToken);
+        console.log(req.cookies);
         if (refreshToken === null) return res.sendStatus(401);
 
         jwt.verify(refreshToken, environment.REFRESH_TOKEN_SECRET, (error, user) => {
