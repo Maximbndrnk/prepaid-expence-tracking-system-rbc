@@ -4,7 +4,7 @@ const environment = require('../environment')
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']; // Bearer token
     const token = authHeader ? authHeader.split(' ')[1] : null;
-
+    console.log('rq',req.headers);
     if (!token) {
         return res.status(401).json({ error: 'Null token' });
     }

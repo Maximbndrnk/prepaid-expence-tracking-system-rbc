@@ -39,6 +39,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
   test(){
     this.authService.updateToken().subscribe();
   }
+test2(){
+    this.loginService.getTMPUsers().subscribe();
+  }
 
   public changeMode(b: boolean): void {
     this.loginMode = b;
@@ -74,9 +77,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
   }
 
   private initLoginForm(): void {
-    this.loginForm = this.fb.group({
-      [this.FORM_KEYS.EMAIL]: ['', [Validators.required, Validators.email]],
-      [this.FORM_KEYS.PASSWORD]: ['', [Validators.required, Validators.minLength(3)]]
+    this.loginForm = this.fb.group({ //TODO: TMP DEFAULT INP
+      [this.FORM_KEYS.EMAIL]: ['max@email.com', [Validators.required, Validators.email]],
+      [this.FORM_KEYS.PASSWORD]: ['max', [Validators.required, Validators.minLength(3)]]
     });
   }
 

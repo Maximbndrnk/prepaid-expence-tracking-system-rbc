@@ -35,7 +35,7 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
 
         // If the error is an unauthorized error, try to update the access token
-        if (error.status === 401 && accessToken) {
+        if (error.status === 403 && accessToken) {
           return from(this.authService.updateToken()).pipe(
             switchMap(() => {
 

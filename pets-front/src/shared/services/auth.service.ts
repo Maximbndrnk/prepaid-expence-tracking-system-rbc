@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { SessionStorageService } from './session-storage.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginResponse } from '../models/login-responce.interface';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { KEYS } from '../models/keys.const';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +20,16 @@ export class AuthService {
 
   public updateToken(): Observable<any> {
     return this.http.get<any>(
-      `${this.baseUrl}/auth/refreshToken`
+      `${this.baseUrl}/auth/refreshToken`,
+      {
+        headers: new HttpHeaders({
+          [KEYS.REFRESH_TOKEN]: this.sessionStorage.getItem(KEYS.REFRESH_TOKEN),
+        }),
+      }
     ).pipe(
       map((resp) => {
-        console.log('UPD To', resp);
+        this.sessionStorage.setItem(KEYS.ACCESS_TOKEN, resp.accessToken);
+        this.sessionStorage.setItem(KEYS.REFRESH_TOKEN, resp.refreshToken);
         return resp;
       })
     )
