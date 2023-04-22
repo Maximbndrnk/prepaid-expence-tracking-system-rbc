@@ -7,6 +7,7 @@ const { json } = require('express');
 // ROUTES
 const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
+const transactionsRoutes = require('./routes/transactions');
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/transactions', transactionsRoutes);
 
 module.exports = app;
