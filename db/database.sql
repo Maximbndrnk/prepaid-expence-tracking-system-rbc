@@ -31,7 +31,7 @@ CREATE TABLE transactions(
   currency TEXT NOT NULL,
   submitted_date_time DATE NOT NULL,
   submitted_user TEXT NOT NULL,
-  deleted TEXT,
+  deleted BOOLEAN NOT NULL DEFAULT false,
   parent_record_id TEXT
 );
 

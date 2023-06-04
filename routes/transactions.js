@@ -8,37 +8,63 @@ const environment = require('../environment');
 const router = express.Router();
 
 //http://localhost:5002/api/transactions/add
-// LOGIN USER
-router.post('/add', async (req, res) => {
+
+// GET USERS
+router.get('/', async (req, res) => {
+// router.get('/', authenticateToken, async (req, res) => {
     try {
-        const { email, password } = req.body;
+        // console.log(req.cookies);
+        const transactions = await pool.query('SELECT * FROM transactions;');
+        res.json({ transactions: transactions.rows });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
 
-        const users = await pool.query(
-            'SELECT * FROM users WHERE user_email = $1',
-            [ email ]
+// ADD TRANSACTION
+router.post('/', async (req, res) => {
+    console.log('req', req.body);
+    try {
+        const {
+            recordDate,
+            tDescription,
+            tType,
+            category,
+            subcategory,
+            direction,
+            amount,
+            currency,
+            submittedDateTime,
+            submittedUser,
+            deleted,
+            parentRecordId
+        } = req.body;
+
+        const newTransaction = await pool.query(
+            `INSERT INTO transactions (record_date, t_description, t_type, category, subcategory,
+                direction, amount, currency, submitted_date_time, submitted_user, deleted, parent_record_id) 
+             VALUES ($1, $2,$3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
+            [
+                recordDate,
+                tDescription,
+                tType,
+                category,
+                subcategory,
+                direction,
+                amount,
+                currency,
+                submittedDateTime,
+                submittedUser,
+                deleted,
+                parentRecordId
+            ]
         );
-        if (!users.rows.length) {
-            res.status(401).json({ error: 'Email is incorrect' })
-        }
 
-        const validPassword = await bcrypt.compare(password, users.rows[0].user_password);
-        if (!validPassword) {
-            res.status(401).json({ error: 'Password is incorrect' })
-        }
-        let user = users.rows[0];
-        console.log(user);
-        let tokens = jwtTokens(user);
-        // return res.status(200).json('Success' );
-        res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true });
-
-        res.json({
-            refreshToken: tokens.refreshToken,
-            accessToken: tokens.accessToken,
-            userName: user.user_name,
-            userEmail: user.user_email,
+        res.status(200).json({
+            status: 'Success',
         });
     } catch (e) {
-        res.status(401).json({ error: e.message });
+        res.status(401).json({error: e.message});
     }
 });
 
@@ -47,9 +73,9 @@ router.post('/add', async (req, res) => {
 router.delete('/delete', (req, res) => {
     try {
         res.clearCookie('refresh_token');
-        return res.status(200).json({ message: 'Refresh token deleted.' });
+        return res.status(200).json({message: 'Refresh token deleted.'});
     } catch (error) {
-        res.status(401).json({ error: error.message });
+        res.status(401).json({error: error.message});
     }
 });
 
