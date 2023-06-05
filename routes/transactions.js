@@ -9,9 +9,13 @@ const router = express.Router();
 
 //http://localhost:5002/api/transactions/add
 
-// GET USERS
+// GET TRANSACTIONS
 router.get('/', async (req, res) => {
 // router.get('/', authenticateToken, async (req, res) => {
+    const {
+        pageIndex,
+        pageSize,
+    } = req.body;
     try {
         // console.log(req.cookies);
         const transactions = await pool.query('SELECT * FROM transactions;');

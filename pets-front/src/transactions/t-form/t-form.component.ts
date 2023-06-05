@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Transaction } from '../../shared/models/transactions.models';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-t-form',
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TFormComponent implements OnInit {
 
-  constructor() { }
+  @Output() submitRecord = new EventEmitter<Transaction>();
+  form?: FormGroup;
 
-  ngOnInit(): void {
+  constructor(
+    private fb: FormBuilder,
+  ) {
   }
 
+  ngOnInit(): void {
+    this.initForm();
+  }
+
+  addTransaction(): void {
+    if (this.form?.valid) {
+      this.submitRecord.emit(this.form.getRawValue());
+    }
+  }
+
+  private initForm(): void {
+    this.form = this.fb.group({});
+  }
 }
