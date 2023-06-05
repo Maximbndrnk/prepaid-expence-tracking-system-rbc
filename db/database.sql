@@ -44,7 +44,15 @@ CREATE TABLE categories(
   record_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   category TEXT NOT NULL,
   subcategory TEXT NOT NULL,
-  t_type TEXT NOT NULL,
+  c_type TEXT NOT NULL,
+  c_description TEXT NOT NULL
+);
+
+CREATE TABLE subcategories(
+  record_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  parent_category_id TEXT NOT NULL,
+  subcategory_name TEXT NOT NULL,
+  c_type TEXT NOT NULL,
   c_description TEXT NOT NULL
 );
 

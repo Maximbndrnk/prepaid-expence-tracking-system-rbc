@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { LoginResponse } from '../models/login-responce.interface';
 import { SessionStorageService } from './session-storage.service';
-import { KEYS } from '../models/keys.const';
 import { ITransactionFilterData, Transaction } from '../models/transactions.models';
 
 @Injectable({
