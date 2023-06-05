@@ -11,14 +11,14 @@ import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
   {
-    path:'',
+    path: '',
     redirectTo: 'login',
-    pathMatch:'full'
+    pathMatch: 'full'
   },
   {
-    path:'login',
+    path: 'login',
     component: LoginComponent,
-    pathMatch:'full'
+    pathMatch: 'full'
   },
 ];
 
@@ -38,4 +38,5 @@ const routes: Routes = [
   ],
 
 })
-export class LoginModule { }
+export class LoginModule {
+}

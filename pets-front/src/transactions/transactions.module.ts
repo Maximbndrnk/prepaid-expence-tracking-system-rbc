@@ -7,14 +7,14 @@ import { TFormComponent } from './t-form/t-form.component';
 
 const routes: Routes = [
   {
-    path:'',
+    path: '',
     redirectTo: 'transactions',
-    pathMatch:'full'
+    pathMatch: 'full'
   },
   {
-    path:'transactions',
+    path: 'transactions',
     component: TransactionsComponent,
-    pathMatch:'full'
+    pathMatch: 'full'
   },
 ];
 
@@ -29,4 +29,5 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ]
 })
-export class TransactionsModule { }
+export class TransactionsModule {
+}
