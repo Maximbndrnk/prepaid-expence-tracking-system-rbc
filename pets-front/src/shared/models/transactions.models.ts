@@ -14,15 +14,15 @@ export interface Transaction {
 }
 
 export interface ITransactionFilterData {
-  userName:string,
-  currency:string,
-  closedDate:string,
-  type:string,
-  category:string,
-  subcategory:string,
-  dateFrom:string,
-  dateTo:string,
-  deleted:string,
-  pageIndex: number,
-  pageSize: number,
+  userName?:string,
+  currency?:string,
+  closedDate?:string,
+  type?:string,
+  category?:string,
+  subcategory?:string,
+  dateFrom?:string,
+  dateTo?:string,
+  deleted?:boolean,
+  pageIndex?: number,
+  pageSize?: number,
 }

@@ -4,6 +4,7 @@ const pool = require('../db/index');
 const jwt = require('jsonwebtoken');
 const jwtTokens = require('../helpers/jwt-helper');
 const environment = require('../environment');
+const url = require('url');
 
 const router = express.Router();
 
@@ -12,16 +13,43 @@ const router = express.Router();
 // GET TRANSACTIONS
 router.get('/', async (req, res) => {
 // router.get('/', authenticateToken, async (req, res) => {
-    const {
+
+    const parsedUrl = url.parse(req.url, true);
+    console.log('parsedUrl:',parsedUrl);
+    let {
         pageIndex,
         pageSize,
-    } = req.body;
+        sortBy,
+        filterBy,
+    } = parsedUrl.query;
+
+    if (!pageIndex) {
+        pageIndex = 0;
+    }
+
+    if (!pageSize) {
+        pageSize = 10;
+    }
+
+
+    let q = `SELECT * FROM transactions 
+             ORDER BY ${sortBy} ASC 
+             OFFSET ${pageIndex} 
+             LIMIT ${pageSize}`;
+    const values = [];
+
+    if (filterBy) {
+        q += ` WHERE !!!!! = $3`;
+        values.push(filterBy);
+    }
+
+    console.log('query',q);
     try {
         // console.log(req.cookies);
-        const transactions = await pool.query('SELECT * FROM transactions;');
-        res.json({ transactions: transactions.rows });
+        const transactions = await pool.query(q, values);
+        res.json({transactions: transactions.rows});
     } catch (e) {
-        res.status(500).json({ error: e.message });
+        res.status(500).json({error: e.message});
     }
 });
 

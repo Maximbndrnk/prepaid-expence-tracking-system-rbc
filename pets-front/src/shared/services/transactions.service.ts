@@ -21,7 +21,18 @@ export class TransactionsService {
   getTransactions(
     ftd: ITransactionFilterData
   ): Observable<Transaction[]> {
-    return this.http.get<any>(`${this.baseUrl}/transactions`).pipe(
+    let paramsUrl = `?pageIndex=${ftd.pageIndex || 0}&pageSize=${ftd.pageSize || 10}`;
+    ftd.pageIndex = undefined;
+    ftd.pageSize = undefined;
+    Object.keys(ftd).forEach(key => {
+      // @ts-ignore
+      if (ftd[key]) {
+        // @ts-ignore
+        paramsUrl += `&${key}=${ftd[key]}`
+      }
+    })
+
+    return this.http.get<any>(`${this.baseUrl}/transactions${paramsUrl}`).pipe(
       map((resp) => {
         return resp;
       })
