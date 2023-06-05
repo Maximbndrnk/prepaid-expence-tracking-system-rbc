@@ -8,6 +8,10 @@ const routes: Routes = [
     loadChildren: () => import('../login/login.module').then((m) => m.LoginModule),
   },
   {
+    path:'transactions',
+    loadChildren: () => import('../transactions/transactions.module').then((m) => m.TransactionsModule),
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   },
