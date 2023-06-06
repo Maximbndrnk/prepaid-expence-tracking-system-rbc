@@ -17,6 +17,7 @@ export interface ITransactionFilterData {
   userName?:string,
   currency?:string,
   closedDate?:string,
+  amount?:string,
   type?:string,
   category?:string,
   subcategory?:string,

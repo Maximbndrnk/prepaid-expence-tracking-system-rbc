@@ -10,17 +10,29 @@ const router = express.Router();
 
 //http://localhost:5002/api/transactions/add
 
+const FIELD_MAPPER = {
+    userName: 'submitted_user',
+    currency: 'currency',
+    amount: 'amount',
+    closedDate: 'submitted_date_time',
+    type: 't_type',
+    category: 'category',
+    subcategory: 'subcategory',
+    dateFrom: 'record_date',
+    dateTo: 'record_date',
+    deleted: 'deleted',
+}
+
 // GET TRANSACTIONS
 router.get('/', async (req, res) => {
 // router.get('/', authenticateToken, async (req, res) => {
 
     const parsedUrl = url.parse(req.url, true);
-    console.log('parsedUrl:',parsedUrl);
+    console.log('parsedUrl:', parsedUrl);
     let {
         pageIndex,
         pageSize,
         sortBy,
-        filterBy,
     } = parsedUrl.query;
 
     if (!pageIndex) {
@@ -30,20 +42,63 @@ router.get('/', async (req, res) => {
     if (!pageSize) {
         pageSize = 10;
     }
+    // const values = [offset, pageSize];
+    // let paramCount = 3;
 
+    let whereQuery = 'WHERE ';
+    let whereQueryLen = whereQuery.length;
+
+
+    if (parsedUrl.query.userName) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `submitted_user = '${parsedUrl.query.userName}'`;
+    }
+    if (parsedUrl.query.amount) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `amount = '${parsedUrl.query.amount}'`;
+    }
+    if (parsedUrl.query.currency) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `currency = '${parsedUrl.query.currency}'`;
+    }
+    if (parsedUrl.query.closedDate) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `submitted_date_time = '${parsedUrl.query.closedDate}'`;
+    }
+    if (parsedUrl.query.type) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `t_type = '${parsedUrl.query.type}'`;
+    }
+    if (parsedUrl.query.category) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `category = '${parsedUrl.query.category}'`;
+    }
+    if (parsedUrl.query.subcategory) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `subcategory = '${parsedUrl.query.subcategory}'`;
+    }
+    if (parsedUrl.query.dateFrom) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `record_date >= '${parsedUrl.query.dateFrom}'`;
+    }
+    if (parsedUrl.query.dateTo) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `record_date <= '${parsedUrl.query.dateTo}'`;
+    }
+    if (parsedUrl.query.deleted) {
+        whereQuery += (whereQuery.length > whereQueryLen ? ` AND ` : ``)
+            + `deleted = ${parsedUrl.query.deleted}`;
+    }
 
     let q = `SELECT * FROM transactions 
+             ${whereQuery.length > whereQueryLen ? whereQuery : ''} 
              ORDER BY ${sortBy} ASC 
              OFFSET ${pageIndex} 
              LIMIT ${pageSize}`;
     const values = [];
 
-    if (filterBy) {
-        q += ` WHERE !!!!! = $3`;
-        values.push(filterBy);
-    }
 
-    console.log('query',q);
+    console.log('query', q);
     try {
         // console.log(req.cookies);
         const transactions = await pool.query(q, values);
